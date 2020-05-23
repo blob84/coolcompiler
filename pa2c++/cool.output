@@ -1,0 +1,4434 @@
+Terminals unused in grammar
+
+   ERROR
+
+
+Stato 112 9 conflitti shift/riduzione
+Stato 171 9 conflitti shift/riduzione
+Stato 228conflitti: 9 shift/riduzione, 21 riduzione/riduzione
+Stato 244 9 conflitti shift/riduzione
+Stato 257conflitti: 9 shift/riduzione, 21 riduzione/riduzione
+
+
+Grammatica
+
+    0 $accept: program $end
+
+    1 program: class_list
+
+    2 class_list: class
+    3           | class_list class
+
+    4 class: CLASS TYPEID '{' dummy_feature_list '}' ';'
+    5      | CLASS TYPEID INHERITS TYPEID '{' dummy_feature_list '}' ';'
+    6      | CLASS TYPEID '{' feature_list '}' ';'
+    7      | CLASS TYPEID INHERITS TYPEID '{' feature_list '}' ';'
+    8      | error ';'
+
+    9 dummy_feature_list: %empty
+
+   10 feature_list: feature
+   11             | feature_list feature
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID '{' expression '}' ';'
+   13        | OBJECTID '(' dummy_formal_list ')' ':' TYPEID '{' expression '}' ';'
+   14        | OBJECTID ':' TYPEID ASSIGN expression ';'
+   15        | OBJECTID ':' TYPEID ';'
+   16        | error ';'
+
+   17 dummy_formal_list: %empty
+
+   18 formal: OBJECTID ':' TYPEID
+
+   19 formal_list: formal
+   20            | formal_list ',' formal
+
+   21 dummy_expression_list: %empty
+
+   22 expression_list: expression
+   23                | expression_list ',' expression
+
+   24 block_expression_list: expression_semi
+   25                      | block_expression_list expression_semi
+
+   26 expression_semi: OBJECTID ASSIGN expression ';'
+   27                | OBJECTID ASSIGN error ';'
+   28                | expression '@' TYPEID '.' OBJECTID '(' expression_list ')' ';'
+   29                | expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' ';'
+   30                | expression '.' OBJECTID '(' expression_list ')' ';'
+   31                | expression '.' OBJECTID '(' dummy_expression_list ')' ';'
+   32                | OBJECTID '(' expression_list ')' ';'
+   33                | OBJECTID '(' dummy_expression_list ')' ';'
+   34                | IF expression THEN expression ELSE expression FI ';'
+   35                | WHILE expression LOOP expression POOL ';'
+   36                | '{' block_expression_list '}' ';'
+   37                | letexpr ';'
+   38                | CASE expression OF case_list ESAC ';'
+   39                | NEW TYPEID ';'
+   40                | ISVOID expression ';'
+   41                | expression '+' expression ';'
+   42                | expression '-' expression ';'
+   43                | expression '*' expression ';'
+   44                | expression '/' expression ';'
+   45                | '~' expression ';'
+   46                | expression LE expression ';'
+   47                | expression '<' expression ';'
+   48                | expression '=' expression ';'
+   49                | NOT expression ';'
+   50                | '(' expression ')' ';'
+   51                | OBJECTID ';'
+   52                | INT_CONST ';'
+   53                | STR_CONST ';'
+   54                | BOOL_CONST ';'
+   55                | error ';'
+
+   56 expression: OBJECTID ASSIGN expression
+   57           | OBJECTID ASSIGN error
+   58           | expression '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression '.' OBJECTID '(' expression_list ')'
+   61           | expression '.' OBJECTID '(' dummy_expression_list ')'
+   62           | OBJECTID '(' expression_list ')'
+   63           | OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression THEN expression ELSE expression FI
+   65           | WHILE expression LOOP expression POOL
+   66           | '{' block_expression_list '}'
+   67           | letexpr
+   68           | CASE expression OF case_list ESAC
+   69           | NEW TYPEID
+   70           | ISVOID expression
+   71           | expression '+' expression
+   72           | expression '-' expression
+   73           | expression '*' expression
+   74           | expression '/' expression
+   75           | '~' expression
+   76           | expression LE expression
+   77           | expression '<' expression
+   78           | expression '=' expression
+   79           | NOT expression
+   80           | '(' expression ')'
+   81           | OBJECTID
+   82           | INT_CONST
+   83           | STR_CONST
+   84           | BOOL_CONST
+
+   85 case: OBJECTID ':' TYPEID DARROW expression ';'
+
+   86 case_list: case
+   87          | case_list case
+
+   88 letexpr: LET OBJECTID ':' TYPEID letexpr_init
+   89        | LET OBJECTID ':' TYPEID ASSIGN expression letexpr_init
+   90        | LET OBJECTID ':' TYPEID IN expression
+   91        | LET OBJECTID ':' TYPEID ASSIGN expression IN expression
+
+   92 letexpr_init: ',' OBJECTID ':' TYPEID letexpr_init
+   93             | ',' OBJECTID ':' TYPEID ASSIGN expression letexpr_init
+   94             | IN expression
+   95             | error letexpr_init
+
+
+Simboli terminali e regole in cui appaiono
+
+$end (0) 0
+'(' (40) 12 13 28 29 30 31 32 33 50 58 59 60 61 62 63 80
+')' (41) 12 13 28 29 30 31 32 33 50 58 59 60 61 62 63 80
+'*' (42) 43 73
+'+' (43) 41 71
+',' (44) 20 23 92 93
+'-' (45) 42 72
+'.' (46) 28 29 30 31 58 59 60 61
+'/' (47) 44 74
+':' (58) 12 13 14 15 18 85 88 89 90 91 92 93
+';' (59) 4 5 6 7 8 12 13 14 15 16 26 27 28 29 30 31 32 33 34 35 36
+    37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 85
+'<' (60) 47 77
+'=' (61) 48 78
+'@' (64) 28 29 58 59
+'{' (123) 4 5 6 7 12 13 36 66
+'}' (125) 4 5 6 7 12 13 36 66
+'~' (126) 45 75
+error (256) 8 16 27 55 57 95
+CLASS (258) 4 5 6 7
+ELSE (259) 34 64
+FI (260) 34 64
+IF (261) 34 64
+IN (262) 90 91 94
+INHERITS (263) 5 7
+LET (264) 88 89 90 91
+LOOP (265) 35 65
+POOL (266) 35 65
+THEN (267) 34 64
+WHILE (268) 35 65
+CASE (269) 38 68
+ESAC (270) 38 68
+OF (271) 38 68
+DARROW (272) 85
+NEW (273) 39 69
+ISVOID (274) 40 70
+STR_CONST (275) 53 83
+INT_CONST (276) 52 82
+BOOL_CONST (277) 54 84
+TYPEID (278) 4 5 6 7 12 13 14 15 18 28 29 39 58 59 69 85 88 89 90 91
+    92 93
+OBJECTID (279) 12 13 14 15 18 26 27 28 29 30 31 32 33 51 56 57 58 59
+    60 61 62 63 81 85 88 89 90 91 92 93
+ASSIGN (280) 14 26 27 56 57 89 91 93
+NOT (281) 49 79
+LE (282) 46 76
+ERROR (283)
+
+
+Simboli nonterminali e regole in cui appaiono
+
+$accept (45)
+    nel primo membro: 0
+program (46)
+    nel primo membro: 1, nel secondo membro: 0
+class_list (47)
+    nel primo membro: 2 3, nel secondo membro: 1 3
+class (48)
+    nel primo membro: 4 5 6 7 8, nel secondo membro: 2 3
+dummy_feature_list (49)
+    nel primo membro: 9, nel secondo membro: 4 5
+feature_list (50)
+    nel primo membro: 10 11, nel secondo membro: 6 7 11
+feature (51)
+    nel primo membro: 12 13 14 15 16, nel secondo membro: 10 11
+dummy_formal_list (52)
+    nel primo membro: 17, nel secondo membro: 13
+formal (53)
+    nel primo membro: 18, nel secondo membro: 19 20
+formal_list (54)
+    nel primo membro: 19 20, nel secondo membro: 12 20
+dummy_expression_list (55)
+    nel primo membro: 21, nel secondo membro: 29 31 33 59 61 63
+expression_list (56)
+    nel primo membro: 22 23, nel secondo membro: 23 28 30 32 58 60
+    62
+block_expression_list (57)
+    nel primo membro: 24 25, nel secondo membro: 25 36 66
+expression_semi (58)
+    nel primo membro: 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40
+    41 42 43 44 45 46 47 48 49 50 51 52 53 54 55, nel secondo membro:
+    24 25
+expression (59)
+    nel primo membro: 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70
+    71 72 73 74 75 76 77 78 79 80 81 82 83 84, nel secondo membro:
+    12 13 14 22 23 26 28 29 30 31 34 35 38 40 41 42 43 44 45 46 47
+    48 49 50 56 58 59 60 61 64 65 68 70 71 72 73 74 75 76 77 78 79
+    80 85 89 90 91 93 94
+case (60)
+    nel primo membro: 85, nel secondo membro: 86 87
+case_list (61)
+    nel primo membro: 86 87, nel secondo membro: 38 68 87
+letexpr (62)
+    nel primo membro: 88 89 90 91, nel secondo membro: 37 67
+letexpr_init (63)
+    nel primo membro: 92 93 94 95, nel secondo membro: 88 89 92 93
+    95
+
+
+State 0
+
+    0 $accept: . program $end
+
+    error  shift e prosecuzione allo stato 1
+    CLASS  shift e prosecuzione allo stato 2
+
+    program     prosecuzione allo stato 3
+    class_list  prosecuzione allo stato 4
+    class       prosecuzione allo stato 5
+
+
+State 1
+
+    8 class: error . ';'
+
+    ';'  shift e prosecuzione allo stato 6
+
+
+State 2
+
+    4 class: CLASS . TYPEID '{' dummy_feature_list '}' ';'
+    5      | CLASS . TYPEID INHERITS TYPEID '{' dummy_feature_list '}' ';'
+    6      | CLASS . TYPEID '{' feature_list '}' ';'
+    7      | CLASS . TYPEID INHERITS TYPEID '{' feature_list '}' ';'
+
+    TYPEID  shift e prosecuzione allo stato 7
+
+
+State 3
+
+    0 $accept: program . $end
+
+    $end  shift e prosecuzione allo stato 8
+
+
+State 4
+
+    1 program: class_list .
+    3 class_list: class_list . class
+
+    error  shift e prosecuzione allo stato 1
+    CLASS  shift e prosecuzione allo stato 2
+
+    $end  riduzione con la regola 1 (program)
+
+    class  prosecuzione allo stato 9
+
+
+State 5
+
+    2 class_list: class .
+
+    $default  riduzione con la regola 2 (class_list)
+
+
+State 6
+
+    8 class: error ';' .
+
+    $default  riduzione con la regola 8 (class)
+
+
+State 7
+
+    4 class: CLASS TYPEID . '{' dummy_feature_list '}' ';'
+    5      | CLASS TYPEID . INHERITS TYPEID '{' dummy_feature_list '}' ';'
+    6      | CLASS TYPEID . '{' feature_list '}' ';'
+    7      | CLASS TYPEID . INHERITS TYPEID '{' feature_list '}' ';'
+
+    INHERITS  shift e prosecuzione allo stato 10
+    '{'       shift e prosecuzione allo stato 11
+
+
+State 8
+
+    0 $accept: program $end .
+
+    $default  accetta
+
+
+State 9
+
+    3 class_list: class_list class .
+
+    $default  riduzione con la regola 3 (class_list)
+
+
+State 10
+
+    5 class: CLASS TYPEID INHERITS . TYPEID '{' dummy_feature_list '}' ';'
+    7      | CLASS TYPEID INHERITS . TYPEID '{' feature_list '}' ';'
+
+    TYPEID  shift e prosecuzione allo stato 12
+
+
+State 11
+
+    4 class: CLASS TYPEID '{' . dummy_feature_list '}' ';'
+    6      | CLASS TYPEID '{' . feature_list '}' ';'
+
+    error     shift e prosecuzione allo stato 13
+    OBJECTID  shift e prosecuzione allo stato 14
+
+    '}'  riduzione con la regola 9 (dummy_feature_list)
+
+    dummy_feature_list  prosecuzione allo stato 15
+    feature_list        prosecuzione allo stato 16
+    feature             prosecuzione allo stato 17
+
+
+State 12
+
+    5 class: CLASS TYPEID INHERITS TYPEID . '{' dummy_feature_list '}' ';'
+    7      | CLASS TYPEID INHERITS TYPEID . '{' feature_list '}' ';'
+
+    '{'  shift e prosecuzione allo stato 18
+
+
+State 13
+
+   16 feature: error . ';'
+
+    ';'  shift e prosecuzione allo stato 19
+
+
+State 14
+
+   12 feature: OBJECTID . '(' formal_list ')' ':' TYPEID '{' expression '}' ';'
+   13        | OBJECTID . '(' dummy_formal_list ')' ':' TYPEID '{' expression '}' ';'
+   14        | OBJECTID . ':' TYPEID ASSIGN expression ';'
+   15        | OBJECTID . ':' TYPEID ';'
+
+    '('  shift e prosecuzione allo stato 20
+    ':'  shift e prosecuzione allo stato 21
+
+
+State 15
+
+    4 class: CLASS TYPEID '{' dummy_feature_list . '}' ';'
+
+    '}'  shift e prosecuzione allo stato 22
+
+
+State 16
+
+    6 class: CLASS TYPEID '{' feature_list . '}' ';'
+   11 feature_list: feature_list . feature
+
+    error     shift e prosecuzione allo stato 13
+    OBJECTID  shift e prosecuzione allo stato 14
+    '}'       shift e prosecuzione allo stato 23
+
+    feature  prosecuzione allo stato 24
+
+
+State 17
+
+   10 feature_list: feature .
+
+    $default  riduzione con la regola 10 (feature_list)
+
+
+State 18
+
+    5 class: CLASS TYPEID INHERITS TYPEID '{' . dummy_feature_list '}' ';'
+    7      | CLASS TYPEID INHERITS TYPEID '{' . feature_list '}' ';'
+
+    error     shift e prosecuzione allo stato 13
+    OBJECTID  shift e prosecuzione allo stato 14
+
+    '}'  riduzione con la regola 9 (dummy_feature_list)
+
+    dummy_feature_list  prosecuzione allo stato 25
+    feature_list        prosecuzione allo stato 26
+    feature             prosecuzione allo stato 17
+
+
+State 19
+
+   16 feature: error ';' .
+
+    $default  riduzione con la regola 16 (feature)
+
+
+State 20
+
+   12 feature: OBJECTID '(' . formal_list ')' ':' TYPEID '{' expression '}' ';'
+   13        | OBJECTID '(' . dummy_formal_list ')' ':' TYPEID '{' expression '}' ';'
+
+    OBJECTID  shift e prosecuzione allo stato 27
+
+    $default  riduzione con la regola 17 (dummy_formal_list)
+
+    dummy_formal_list  prosecuzione allo stato 28
+    formal             prosecuzione allo stato 29
+    formal_list        prosecuzione allo stato 30
+
+
+State 21
+
+   14 feature: OBJECTID ':' . TYPEID ASSIGN expression ';'
+   15        | OBJECTID ':' . TYPEID ';'
+
+    TYPEID  shift e prosecuzione allo stato 31
+
+
+State 22
+
+    4 class: CLASS TYPEID '{' dummy_feature_list '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 32
+
+
+State 23
+
+    6 class: CLASS TYPEID '{' feature_list '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 33
+
+
+State 24
+
+   11 feature_list: feature_list feature .
+
+    $default  riduzione con la regola 11 (feature_list)
+
+
+State 25
+
+    5 class: CLASS TYPEID INHERITS TYPEID '{' dummy_feature_list . '}' ';'
+
+    '}'  shift e prosecuzione allo stato 34
+
+
+State 26
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' feature_list . '}' ';'
+   11 feature_list: feature_list . feature
+
+    error     shift e prosecuzione allo stato 13
+    OBJECTID  shift e prosecuzione allo stato 14
+    '}'       shift e prosecuzione allo stato 35
+
+    feature  prosecuzione allo stato 24
+
+
+State 27
+
+   18 formal: OBJECTID . ':' TYPEID
+
+    ':'  shift e prosecuzione allo stato 36
+
+
+State 28
+
+   13 feature: OBJECTID '(' dummy_formal_list . ')' ':' TYPEID '{' expression '}' ';'
+
+    ')'  shift e prosecuzione allo stato 37
+
+
+State 29
+
+   19 formal_list: formal .
+
+    $default  riduzione con la regola 19 (formal_list)
+
+
+State 30
+
+   12 feature: OBJECTID '(' formal_list . ')' ':' TYPEID '{' expression '}' ';'
+   20 formal_list: formal_list . ',' formal
+
+    ')'  shift e prosecuzione allo stato 38
+    ','  shift e prosecuzione allo stato 39
+
+
+State 31
+
+   14 feature: OBJECTID ':' TYPEID . ASSIGN expression ';'
+   15        | OBJECTID ':' TYPEID . ';'
+
+    ASSIGN  shift e prosecuzione allo stato 40
+    ';'     shift e prosecuzione allo stato 41
+
+
+State 32
+
+    4 class: CLASS TYPEID '{' dummy_feature_list '}' ';' .
+
+    $default  riduzione con la regola 4 (class)
+
+
+State 33
+
+    6 class: CLASS TYPEID '{' feature_list '}' ';' .
+
+    $default  riduzione con la regola 6 (class)
+
+
+State 34
+
+    5 class: CLASS TYPEID INHERITS TYPEID '{' dummy_feature_list '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 42
+
+
+State 35
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' feature_list '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 43
+
+
+State 36
+
+   18 formal: OBJECTID ':' . TYPEID
+
+    TYPEID  shift e prosecuzione allo stato 44
+
+
+State 37
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' . ':' TYPEID '{' expression '}' ';'
+
+    ':'  shift e prosecuzione allo stato 45
+
+
+State 38
+
+   12 feature: OBJECTID '(' formal_list ')' . ':' TYPEID '{' expression '}' ';'
+
+    ':'  shift e prosecuzione allo stato 46
+
+
+State 39
+
+   20 formal_list: formal_list ',' . formal
+
+    OBJECTID  shift e prosecuzione allo stato 27
+
+    formal  prosecuzione allo stato 47
+
+
+State 40
+
+   14 feature: OBJECTID ':' TYPEID ASSIGN . expression ';'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 62
+    letexpr     prosecuzione allo stato 63
+
+
+State 41
+
+   15 feature: OBJECTID ':' TYPEID ';' .
+
+    $default  riduzione con la regola 15 (feature)
+
+
+State 42
+
+    5 class: CLASS TYPEID INHERITS TYPEID '{' dummy_feature_list '}' ';' .
+
+    $default  riduzione con la regola 5 (class)
+
+
+State 43
+
+    7 class: CLASS TYPEID INHERITS TYPEID '{' feature_list '}' ';' .
+
+    $default  riduzione con la regola 7 (class)
+
+
+State 44
+
+   18 formal: OBJECTID ':' TYPEID .
+
+    $default  riduzione con la regola 18 (formal)
+
+
+State 45
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' . TYPEID '{' expression '}' ';'
+
+    TYPEID  shift e prosecuzione allo stato 64
+
+
+State 46
+
+   12 feature: OBJECTID '(' formal_list ')' ':' . TYPEID '{' expression '}' ';'
+
+    TYPEID  shift e prosecuzione allo stato 65
+
+
+State 47
+
+   20 formal_list: formal_list ',' formal .
+
+    $default  riduzione con la regola 20 (formal_list)
+
+
+State 48
+
+   64 expression: IF . expression THEN expression ELSE expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 66
+    letexpr     prosecuzione allo stato 63
+
+
+State 49
+
+   88 letexpr: LET . OBJECTID ':' TYPEID letexpr_init
+   89        | LET . OBJECTID ':' TYPEID ASSIGN expression letexpr_init
+   90        | LET . OBJECTID ':' TYPEID IN expression
+   91        | LET . OBJECTID ':' TYPEID ASSIGN expression IN expression
+
+    OBJECTID  shift e prosecuzione allo stato 67
+
+
+State 50
+
+   65 expression: WHILE . expression LOOP expression POOL
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 68
+    letexpr     prosecuzione allo stato 63
+
+
+State 51
+
+   68 expression: CASE . expression OF case_list ESAC
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 69
+    letexpr     prosecuzione allo stato 63
+
+
+State 52
+
+   69 expression: NEW . TYPEID
+
+    TYPEID  shift e prosecuzione allo stato 70
+
+
+State 53
+
+   70 expression: ISVOID . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 71
+    letexpr     prosecuzione allo stato 63
+
+
+State 54
+
+   83 expression: STR_CONST .
+
+    $default  riduzione con la regola 83 (expression)
+
+
+State 55
+
+   82 expression: INT_CONST .
+
+    $default  riduzione con la regola 82 (expression)
+
+
+State 56
+
+   84 expression: BOOL_CONST .
+
+    $default  riduzione con la regola 84 (expression)
+
+
+State 57
+
+   56 expression: OBJECTID . ASSIGN expression
+   57           | OBJECTID . ASSIGN error
+   62           | OBJECTID . '(' expression_list ')'
+   63           | OBJECTID . '(' dummy_expression_list ')'
+   81           | OBJECTID .
+
+    ASSIGN  shift e prosecuzione allo stato 72
+    '('     shift e prosecuzione allo stato 73
+
+    $default  riduzione con la regola 81 (expression)
+
+
+State 58
+
+   79 expression: NOT . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 74
+    letexpr     prosecuzione allo stato 63
+
+
+State 59
+
+   75 expression: '~' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 75
+    letexpr     prosecuzione allo stato 63
+
+
+State 60
+
+   66 expression: '{' . block_expression_list '}'
+
+    error       shift e prosecuzione allo stato 76
+    IF          shift e prosecuzione allo stato 77
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 78
+    CASE        shift e prosecuzione allo stato 79
+    NEW         shift e prosecuzione allo stato 80
+    ISVOID      shift e prosecuzione allo stato 81
+    STR_CONST   shift e prosecuzione allo stato 82
+    INT_CONST   shift e prosecuzione allo stato 83
+    BOOL_CONST  shift e prosecuzione allo stato 84
+    OBJECTID    shift e prosecuzione allo stato 85
+    NOT         shift e prosecuzione allo stato 86
+    '~'         shift e prosecuzione allo stato 87
+    '{'         shift e prosecuzione allo stato 88
+    '('         shift e prosecuzione allo stato 89
+
+    block_expression_list  prosecuzione allo stato 90
+    expression_semi        prosecuzione allo stato 91
+    expression             prosecuzione allo stato 92
+    letexpr                prosecuzione allo stato 93
+
+
+State 61
+
+   80 expression: '(' . expression ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 94
+    letexpr     prosecuzione allo stato 63
+
+
+State 62
+
+   14 feature: OBJECTID ':' TYPEID ASSIGN expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 104
+
+
+State 63
+
+   67 expression: letexpr .
+
+    $default  riduzione con la regola 67 (expression)
+
+
+State 64
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' TYPEID . '{' expression '}' ';'
+
+    '{'  shift e prosecuzione allo stato 105
+
+
+State 65
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID . '{' expression '}' ';'
+
+    '{'  shift e prosecuzione allo stato 106
+
+
+State 66
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression . THEN expression ELSE expression FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    THEN  shift e prosecuzione allo stato 107
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 67
+
+   88 letexpr: LET OBJECTID . ':' TYPEID letexpr_init
+   89        | LET OBJECTID . ':' TYPEID ASSIGN expression letexpr_init
+   90        | LET OBJECTID . ':' TYPEID IN expression
+   91        | LET OBJECTID . ':' TYPEID ASSIGN expression IN expression
+
+    ':'  shift e prosecuzione allo stato 108
+
+
+State 68
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   65           | WHILE expression . LOOP expression POOL
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LOOP  shift e prosecuzione allo stato 109
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 69
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   68           | CASE expression . OF case_list ESAC
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    OF   shift e prosecuzione allo stato 110
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+
+State 70
+
+   69 expression: NEW TYPEID .
+
+    $default  riduzione con la regola 69 (expression)
+
+
+State 71
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   70           | ISVOID expression .
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 70 (expression)
+
+
+State 72
+
+   56 expression: OBJECTID ASSIGN . expression
+   57           | OBJECTID ASSIGN . error
+
+    error       shift e prosecuzione allo stato 111
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 112
+    letexpr     prosecuzione allo stato 63
+
+
+State 73
+
+   62 expression: OBJECTID '(' . expression_list ')'
+   63           | OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 113
+    expression_list        prosecuzione allo stato 114
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 74
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   79           | NOT expression .
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 79 (expression)
+
+
+State 75
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   75           | '~' expression .
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 75 (expression)
+
+
+State 76
+
+   55 expression_semi: error . ';'
+
+    ';'  shift e prosecuzione allo stato 116
+
+
+State 77
+
+   34 expression_semi: IF . expression THEN expression ELSE expression FI ';'
+   64 expression: IF . expression THEN expression ELSE expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 117
+    letexpr     prosecuzione allo stato 63
+
+
+State 78
+
+   35 expression_semi: WHILE . expression LOOP expression POOL ';'
+   65 expression: WHILE . expression LOOP expression POOL
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 118
+    letexpr     prosecuzione allo stato 63
+
+
+State 79
+
+   38 expression_semi: CASE . expression OF case_list ESAC ';'
+   68 expression: CASE . expression OF case_list ESAC
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 119
+    letexpr     prosecuzione allo stato 63
+
+
+State 80
+
+   39 expression_semi: NEW . TYPEID ';'
+   69 expression: NEW . TYPEID
+
+    TYPEID  shift e prosecuzione allo stato 120
+
+
+State 81
+
+   40 expression_semi: ISVOID . expression ';'
+   70 expression: ISVOID . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 121
+    letexpr     prosecuzione allo stato 63
+
+
+State 82
+
+   53 expression_semi: STR_CONST . ';'
+   83 expression: STR_CONST .
+
+    ';'  shift e prosecuzione allo stato 122
+
+    $default  riduzione con la regola 83 (expression)
+
+
+State 83
+
+   52 expression_semi: INT_CONST . ';'
+   82 expression: INT_CONST .
+
+    ';'  shift e prosecuzione allo stato 123
+
+    $default  riduzione con la regola 82 (expression)
+
+
+State 84
+
+   54 expression_semi: BOOL_CONST . ';'
+   84 expression: BOOL_CONST .
+
+    ';'  shift e prosecuzione allo stato 124
+
+    $default  riduzione con la regola 84 (expression)
+
+
+State 85
+
+   26 expression_semi: OBJECTID . ASSIGN expression ';'
+   27                | OBJECTID . ASSIGN error ';'
+   32                | OBJECTID . '(' expression_list ')' ';'
+   33                | OBJECTID . '(' dummy_expression_list ')' ';'
+   51                | OBJECTID . ';'
+   56 expression: OBJECTID . ASSIGN expression
+   57           | OBJECTID . ASSIGN error
+   62           | OBJECTID . '(' expression_list ')'
+   63           | OBJECTID . '(' dummy_expression_list ')'
+   81           | OBJECTID .
+
+    ASSIGN  shift e prosecuzione allo stato 125
+    ';'     shift e prosecuzione allo stato 126
+    '('     shift e prosecuzione allo stato 127
+
+    $default  riduzione con la regola 81 (expression)
+
+
+State 86
+
+   49 expression_semi: NOT . expression ';'
+   79 expression: NOT . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 128
+    letexpr     prosecuzione allo stato 63
+
+
+State 87
+
+   45 expression_semi: '~' . expression ';'
+   75 expression: '~' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 129
+    letexpr     prosecuzione allo stato 63
+
+
+State 88
+
+   36 expression_semi: '{' . block_expression_list '}' ';'
+   66 expression: '{' . block_expression_list '}'
+
+    error       shift e prosecuzione allo stato 76
+    IF          shift e prosecuzione allo stato 77
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 78
+    CASE        shift e prosecuzione allo stato 79
+    NEW         shift e prosecuzione allo stato 80
+    ISVOID      shift e prosecuzione allo stato 81
+    STR_CONST   shift e prosecuzione allo stato 82
+    INT_CONST   shift e prosecuzione allo stato 83
+    BOOL_CONST  shift e prosecuzione allo stato 84
+    OBJECTID    shift e prosecuzione allo stato 85
+    NOT         shift e prosecuzione allo stato 86
+    '~'         shift e prosecuzione allo stato 87
+    '{'         shift e prosecuzione allo stato 88
+    '('         shift e prosecuzione allo stato 89
+
+    block_expression_list  prosecuzione allo stato 130
+    expression_semi        prosecuzione allo stato 91
+    expression             prosecuzione allo stato 92
+    letexpr                prosecuzione allo stato 93
+
+
+State 89
+
+   50 expression_semi: '(' . expression ')' ';'
+   80 expression: '(' . expression ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 131
+    letexpr     prosecuzione allo stato 63
+
+
+State 90
+
+   25 block_expression_list: block_expression_list . expression_semi
+   66 expression: '{' block_expression_list . '}'
+
+    error       shift e prosecuzione allo stato 76
+    IF          shift e prosecuzione allo stato 77
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 78
+    CASE        shift e prosecuzione allo stato 79
+    NEW         shift e prosecuzione allo stato 80
+    ISVOID      shift e prosecuzione allo stato 81
+    STR_CONST   shift e prosecuzione allo stato 82
+    INT_CONST   shift e prosecuzione allo stato 83
+    BOOL_CONST  shift e prosecuzione allo stato 84
+    OBJECTID    shift e prosecuzione allo stato 85
+    NOT         shift e prosecuzione allo stato 86
+    '~'         shift e prosecuzione allo stato 87
+    '{'         shift e prosecuzione allo stato 88
+    '}'         shift e prosecuzione allo stato 132
+    '('         shift e prosecuzione allo stato 89
+
+    expression_semi  prosecuzione allo stato 133
+    expression       prosecuzione allo stato 92
+    letexpr          prosecuzione allo stato 93
+
+
+State 91
+
+   24 block_expression_list: expression_semi .
+
+    $default  riduzione con la regola 24 (block_expression_list)
+
+
+State 92
+
+   28 expression_semi: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')' ';'
+   29                | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' ';'
+   30                | expression . '.' OBJECTID '(' expression_list ')' ';'
+   31                | expression . '.' OBJECTID '(' dummy_expression_list ')' ';'
+   41                | expression . '+' expression ';'
+   42                | expression . '-' expression ';'
+   43                | expression . '*' expression ';'
+   44                | expression . '/' expression ';'
+   46                | expression . LE expression ';'
+   47                | expression . '<' expression ';'
+   48                | expression . '=' expression ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 134
+    '<'  shift e prosecuzione allo stato 135
+    '='  shift e prosecuzione allo stato 136
+    '+'  shift e prosecuzione allo stato 137
+    '-'  shift e prosecuzione allo stato 138
+    '*'  shift e prosecuzione allo stato 139
+    '/'  shift e prosecuzione allo stato 140
+    '@'  shift e prosecuzione allo stato 141
+    '.'  shift e prosecuzione allo stato 142
+
+
+State 93
+
+   37 expression_semi: letexpr . ';'
+   67 expression: letexpr .
+
+    ';'  shift e prosecuzione allo stato 143
+
+    $default  riduzione con la regola 67 (expression)
+
+
+State 94
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   80           | '(' expression . ')'
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ')'  shift e prosecuzione allo stato 144
+
+
+State 95
+
+   76 expression: expression LE . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 145
+    letexpr     prosecuzione allo stato 63
+
+
+State 96
+
+   77 expression: expression '<' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 146
+    letexpr     prosecuzione allo stato 63
+
+
+State 97
+
+   78 expression: expression '=' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 147
+    letexpr     prosecuzione allo stato 63
+
+
+State 98
+
+   71 expression: expression '+' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 148
+    letexpr     prosecuzione allo stato 63
+
+
+State 99
+
+   72 expression: expression '-' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 149
+    letexpr     prosecuzione allo stato 63
+
+
+State 100
+
+   73 expression: expression '*' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 150
+    letexpr     prosecuzione allo stato 63
+
+
+State 101
+
+   74 expression: expression '/' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 151
+    letexpr     prosecuzione allo stato 63
+
+
+State 102
+
+   58 expression: expression '@' . TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression '@' . TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+
+    TYPEID  shift e prosecuzione allo stato 152
+
+
+State 103
+
+   60 expression: expression '.' . OBJECTID '(' expression_list ')'
+   61           | expression '.' . OBJECTID '(' dummy_expression_list ')'
+
+    OBJECTID  shift e prosecuzione allo stato 153
+
+
+State 104
+
+   14 feature: OBJECTID ':' TYPEID ASSIGN expression ';' .
+
+    $default  riduzione con la regola 14 (feature)
+
+
+State 105
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' TYPEID '{' . expression '}' ';'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 154
+    letexpr     prosecuzione allo stato 63
+
+
+State 106
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID '{' . expression '}' ';'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 155
+    letexpr     prosecuzione allo stato 63
+
+
+State 107
+
+   64 expression: IF expression THEN . expression ELSE expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 156
+    letexpr     prosecuzione allo stato 63
+
+
+State 108
+
+   88 letexpr: LET OBJECTID ':' . TYPEID letexpr_init
+   89        | LET OBJECTID ':' . TYPEID ASSIGN expression letexpr_init
+   90        | LET OBJECTID ':' . TYPEID IN expression
+   91        | LET OBJECTID ':' . TYPEID ASSIGN expression IN expression
+
+    TYPEID  shift e prosecuzione allo stato 157
+
+
+State 109
+
+   65 expression: WHILE expression LOOP . expression POOL
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 158
+    letexpr     prosecuzione allo stato 63
+
+
+State 110
+
+   68 expression: CASE expression OF . case_list ESAC
+
+    OBJECTID  shift e prosecuzione allo stato 159
+
+    case       prosecuzione allo stato 160
+    case_list  prosecuzione allo stato 161
+
+
+State 111
+
+   57 expression: OBJECTID ASSIGN error .
+
+    $default  riduzione con la regola 57 (expression)
+
+
+State 112
+
+   56 expression: OBJECTID ASSIGN expression .
+   58           | expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    LE        [riduzione con la regola 56 (expression)]
+    '<'       [riduzione con la regola 56 (expression)]
+    '='       [riduzione con la regola 56 (expression)]
+    '+'       [riduzione con la regola 56 (expression)]
+    '-'       [riduzione con la regola 56 (expression)]
+    '*'       [riduzione con la regola 56 (expression)]
+    '/'       [riduzione con la regola 56 (expression)]
+    '@'       [riduzione con la regola 56 (expression)]
+    '.'       [riduzione con la regola 56 (expression)]
+    $default  riduzione con la regola 56 (expression)
+
+
+State 113
+
+   63 expression: OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 162
+
+
+State 114
+
+   23 expression_list: expression_list . ',' expression
+   62 expression: OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 163
+    ','  shift e prosecuzione allo stato 164
+
+
+State 115
+
+   22 expression_list: expression .
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 22 (expression_list)
+
+
+State 116
+
+   55 expression_semi: error ';' .
+
+    $default  riduzione con la regola 55 (expression_semi)
+
+
+State 117
+
+   34 expression_semi: IF expression . THEN expression ELSE expression FI ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression . THEN expression ELSE expression FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    THEN  shift e prosecuzione allo stato 165
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 118
+
+   35 expression_semi: WHILE expression . LOOP expression POOL ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   65           | WHILE expression . LOOP expression POOL
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LOOP  shift e prosecuzione allo stato 166
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 119
+
+   38 expression_semi: CASE expression . OF case_list ESAC ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   68           | CASE expression . OF case_list ESAC
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    OF   shift e prosecuzione allo stato 167
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+
+State 120
+
+   39 expression_semi: NEW TYPEID . ';'
+   69 expression: NEW TYPEID .
+
+    ';'  shift e prosecuzione allo stato 168
+
+    $default  riduzione con la regola 69 (expression)
+
+
+State 121
+
+   40 expression_semi: ISVOID expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   70           | ISVOID expression .
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 169
+
+    $default  riduzione con la regola 70 (expression)
+
+
+State 122
+
+   53 expression_semi: STR_CONST ';' .
+
+    $default  riduzione con la regola 53 (expression_semi)
+
+
+State 123
+
+   52 expression_semi: INT_CONST ';' .
+
+    $default  riduzione con la regola 52 (expression_semi)
+
+
+State 124
+
+   54 expression_semi: BOOL_CONST ';' .
+
+    $default  riduzione con la regola 54 (expression_semi)
+
+
+State 125
+
+   26 expression_semi: OBJECTID ASSIGN . expression ';'
+   27                | OBJECTID ASSIGN . error ';'
+   56 expression: OBJECTID ASSIGN . expression
+   57           | OBJECTID ASSIGN . error
+
+    error       shift e prosecuzione allo stato 170
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 171
+    letexpr     prosecuzione allo stato 63
+
+
+State 126
+
+   51 expression_semi: OBJECTID ';' .
+
+    $default  riduzione con la regola 51 (expression_semi)
+
+
+State 127
+
+   32 expression_semi: OBJECTID '(' . expression_list ')' ';'
+   33                | OBJECTID '(' . dummy_expression_list ')' ';'
+   62 expression: OBJECTID '(' . expression_list ')'
+   63           | OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 172
+    expression_list        prosecuzione allo stato 173
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 128
+
+   49 expression_semi: NOT expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   79           | NOT expression .
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 174
+
+
+State 129
+
+   45 expression_semi: '~' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   75           | '~' expression .
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 175
+
+    $default  riduzione con la regola 75 (expression)
+
+
+State 130
+
+   25 block_expression_list: block_expression_list . expression_semi
+   36 expression_semi: '{' block_expression_list . '}' ';'
+   66 expression: '{' block_expression_list . '}'
+
+    error       shift e prosecuzione allo stato 76
+    IF          shift e prosecuzione allo stato 77
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 78
+    CASE        shift e prosecuzione allo stato 79
+    NEW         shift e prosecuzione allo stato 80
+    ISVOID      shift e prosecuzione allo stato 81
+    STR_CONST   shift e prosecuzione allo stato 82
+    INT_CONST   shift e prosecuzione allo stato 83
+    BOOL_CONST  shift e prosecuzione allo stato 84
+    OBJECTID    shift e prosecuzione allo stato 85
+    NOT         shift e prosecuzione allo stato 86
+    '~'         shift e prosecuzione allo stato 87
+    '{'         shift e prosecuzione allo stato 88
+    '}'         shift e prosecuzione allo stato 176
+    '('         shift e prosecuzione allo stato 89
+
+    expression_semi  prosecuzione allo stato 133
+    expression       prosecuzione allo stato 92
+    letexpr          prosecuzione allo stato 93
+
+
+State 131
+
+   50 expression_semi: '(' expression . ')' ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   80           | '(' expression . ')'
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ')'  shift e prosecuzione allo stato 177
+
+
+State 132
+
+   66 expression: '{' block_expression_list '}' .
+
+    $default  riduzione con la regola 66 (expression)
+
+
+State 133
+
+   25 block_expression_list: block_expression_list expression_semi .
+
+    $default  riduzione con la regola 25 (block_expression_list)
+
+
+State 134
+
+   46 expression_semi: expression LE . expression ';'
+   76 expression: expression LE . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 178
+    letexpr     prosecuzione allo stato 63
+
+
+State 135
+
+   47 expression_semi: expression '<' . expression ';'
+   77 expression: expression '<' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 179
+    letexpr     prosecuzione allo stato 63
+
+
+State 136
+
+   48 expression_semi: expression '=' . expression ';'
+   78 expression: expression '=' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 180
+    letexpr     prosecuzione allo stato 63
+
+
+State 137
+
+   41 expression_semi: expression '+' . expression ';'
+   71 expression: expression '+' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 181
+    letexpr     prosecuzione allo stato 63
+
+
+State 138
+
+   42 expression_semi: expression '-' . expression ';'
+   72 expression: expression '-' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 182
+    letexpr     prosecuzione allo stato 63
+
+
+State 139
+
+   43 expression_semi: expression '*' . expression ';'
+   73 expression: expression '*' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 183
+    letexpr     prosecuzione allo stato 63
+
+
+State 140
+
+   44 expression_semi: expression '/' . expression ';'
+   74 expression: expression '/' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 184
+    letexpr     prosecuzione allo stato 63
+
+
+State 141
+
+   28 expression_semi: expression '@' . TYPEID '.' OBJECTID '(' expression_list ')' ';'
+   29                | expression '@' . TYPEID '.' OBJECTID '(' dummy_expression_list ')' ';'
+   58 expression: expression '@' . TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression '@' . TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+
+    TYPEID  shift e prosecuzione allo stato 185
+
+
+State 142
+
+   30 expression_semi: expression '.' . OBJECTID '(' expression_list ')' ';'
+   31                | expression '.' . OBJECTID '(' dummy_expression_list ')' ';'
+   60 expression: expression '.' . OBJECTID '(' expression_list ')'
+   61           | expression '.' . OBJECTID '(' dummy_expression_list ')'
+
+    OBJECTID  shift e prosecuzione allo stato 186
+
+
+State 143
+
+   37 expression_semi: letexpr ';' .
+
+    $default  riduzione con la regola 37 (expression_semi)
+
+
+State 144
+
+   80 expression: '(' expression ')' .
+
+    $default  riduzione con la regola 80 (expression)
+
+
+State 145
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   76           | expression LE expression .
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+    $default  riduzione con la regola 76 (expression)
+
+
+State 146
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   77           | expression '<' expression .
+   78           | expression . '=' expression
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+    $default  riduzione con la regola 77 (expression)
+
+
+State 147
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   78           | expression '=' expression .
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+    $default  riduzione con la regola 78 (expression)
+
+
+State 148
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   71           | expression '+' expression .
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 71 (expression)
+
+
+State 149
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   72           | expression '-' expression .
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 72 (expression)
+
+
+State 150
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   73           | expression '*' expression .
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 73 (expression)
+
+
+State 151
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   74           | expression '/' expression .
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 74 (expression)
+
+
+State 152
+
+   58 expression: expression '@' TYPEID . '.' OBJECTID '(' expression_list ')'
+   59           | expression '@' TYPEID . '.' OBJECTID '(' dummy_expression_list ')'
+
+    '.'  shift e prosecuzione allo stato 187
+
+
+State 153
+
+   60 expression: expression '.' OBJECTID . '(' expression_list ')'
+   61           | expression '.' OBJECTID . '(' dummy_expression_list ')'
+
+    '('  shift e prosecuzione allo stato 188
+
+
+State 154
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' TYPEID '{' expression . '}' ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    '}'  shift e prosecuzione allo stato 189
+
+
+State 155
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID '{' expression . '}' ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    '}'  shift e prosecuzione allo stato 190
+
+
+State 156
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression THEN expression . ELSE expression FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    ELSE  shift e prosecuzione allo stato 191
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 157
+
+   88 letexpr: LET OBJECTID ':' TYPEID . letexpr_init
+   89        | LET OBJECTID ':' TYPEID . ASSIGN expression letexpr_init
+   90        | LET OBJECTID ':' TYPEID . IN expression
+   91        | LET OBJECTID ':' TYPEID . ASSIGN expression IN expression
+
+    error   shift e prosecuzione allo stato 192
+    IN      shift e prosecuzione allo stato 193
+    ASSIGN  shift e prosecuzione allo stato 194
+    ','     shift e prosecuzione allo stato 195
+
+    letexpr_init  prosecuzione allo stato 196
+
+
+State 158
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   65           | WHILE expression LOOP expression . POOL
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    POOL  shift e prosecuzione allo stato 197
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 159
+
+   85 case: OBJECTID . ':' TYPEID DARROW expression ';'
+
+    ':'  shift e prosecuzione allo stato 198
+
+
+State 160
+
+   86 case_list: case .
+
+    $default  riduzione con la regola 86 (case_list)
+
+
+State 161
+
+   68 expression: CASE expression OF case_list . ESAC
+   87 case_list: case_list . case
+
+    ESAC      shift e prosecuzione allo stato 199
+    OBJECTID  shift e prosecuzione allo stato 159
+
+    case  prosecuzione allo stato 200
+
+
+State 162
+
+   63 expression: OBJECTID '(' dummy_expression_list ')' .
+
+    $default  riduzione con la regola 63 (expression)
+
+
+State 163
+
+   62 expression: OBJECTID '(' expression_list ')' .
+
+    $default  riduzione con la regola 62 (expression)
+
+
+State 164
+
+   23 expression_list: expression_list ',' . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 201
+    letexpr     prosecuzione allo stato 63
+
+
+State 165
+
+   34 expression_semi: IF expression THEN . expression ELSE expression FI ';'
+   64 expression: IF expression THEN . expression ELSE expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 202
+    letexpr     prosecuzione allo stato 63
+
+
+State 166
+
+   35 expression_semi: WHILE expression LOOP . expression POOL ';'
+   65 expression: WHILE expression LOOP . expression POOL
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 203
+    letexpr     prosecuzione allo stato 63
+
+
+State 167
+
+   38 expression_semi: CASE expression OF . case_list ESAC ';'
+   68 expression: CASE expression OF . case_list ESAC
+
+    OBJECTID  shift e prosecuzione allo stato 159
+
+    case       prosecuzione allo stato 160
+    case_list  prosecuzione allo stato 204
+
+
+State 168
+
+   39 expression_semi: NEW TYPEID ';' .
+
+    $default  riduzione con la regola 39 (expression_semi)
+
+
+State 169
+
+   40 expression_semi: ISVOID expression ';' .
+
+    $default  riduzione con la regola 40 (expression_semi)
+
+
+State 170
+
+   27 expression_semi: OBJECTID ASSIGN error . ';'
+   57 expression: OBJECTID ASSIGN error .
+
+    ';'  shift e prosecuzione allo stato 205
+
+    $default  riduzione con la regola 57 (expression)
+
+
+State 171
+
+   26 expression_semi: OBJECTID ASSIGN expression . ';'
+   56 expression: OBJECTID ASSIGN expression .
+   58           | expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 206
+
+    LE   [riduzione con la regola 56 (expression)]
+    '<'  [riduzione con la regola 56 (expression)]
+    '='  [riduzione con la regola 56 (expression)]
+    '+'  [riduzione con la regola 56 (expression)]
+    '-'  [riduzione con la regola 56 (expression)]
+    '*'  [riduzione con la regola 56 (expression)]
+    '/'  [riduzione con la regola 56 (expression)]
+    '@'  [riduzione con la regola 56 (expression)]
+    '.'  [riduzione con la regola 56 (expression)]
+
+
+State 172
+
+   33 expression_semi: OBJECTID '(' dummy_expression_list . ')' ';'
+   63 expression: OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 207
+
+
+State 173
+
+   23 expression_list: expression_list . ',' expression
+   32 expression_semi: OBJECTID '(' expression_list . ')' ';'
+   62 expression: OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 208
+    ','  shift e prosecuzione allo stato 164
+
+
+State 174
+
+   49 expression_semi: NOT expression ';' .
+
+    $default  riduzione con la regola 49 (expression_semi)
+
+
+State 175
+
+   45 expression_semi: '~' expression ';' .
+
+    $default  riduzione con la regola 45 (expression_semi)
+
+
+State 176
+
+   36 expression_semi: '{' block_expression_list '}' . ';'
+   66 expression: '{' block_expression_list '}' .
+
+    ';'  shift e prosecuzione allo stato 209
+
+    $default  riduzione con la regola 66 (expression)
+
+
+State 177
+
+   50 expression_semi: '(' expression ')' . ';'
+   80 expression: '(' expression ')' .
+
+    ';'  shift e prosecuzione allo stato 210
+
+    $default  riduzione con la regola 80 (expression)
+
+
+State 178
+
+   46 expression_semi: expression LE expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   76           | expression LE expression .
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 211
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+
+State 179
+
+   47 expression_semi: expression '<' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   77           | expression '<' expression .
+   78           | expression . '=' expression
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 212
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+
+State 180
+
+   48 expression_semi: expression '=' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   78           | expression '=' expression .
+
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 213
+
+    LE   errore (non associativo)
+    '<'  errore (non associativo)
+    '='  errore (non associativo)
+
+
+State 181
+
+   41 expression_semi: expression '+' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   71           | expression '+' expression .
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 214
+
+    $default  riduzione con la regola 71 (expression)
+
+
+State 182
+
+   42 expression_semi: expression '-' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   72           | expression '-' expression .
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 215
+
+    $default  riduzione con la regola 72 (expression)
+
+
+State 183
+
+   43 expression_semi: expression '*' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   73           | expression '*' expression .
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 216
+
+    $default  riduzione con la regola 73 (expression)
+
+
+State 184
+
+   44 expression_semi: expression '/' expression . ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   74           | expression '/' expression .
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 217
+
+    $default  riduzione con la regola 74 (expression)
+
+
+State 185
+
+   28 expression_semi: expression '@' TYPEID . '.' OBJECTID '(' expression_list ')' ';'
+   29                | expression '@' TYPEID . '.' OBJECTID '(' dummy_expression_list ')' ';'
+   58 expression: expression '@' TYPEID . '.' OBJECTID '(' expression_list ')'
+   59           | expression '@' TYPEID . '.' OBJECTID '(' dummy_expression_list ')'
+
+    '.'  shift e prosecuzione allo stato 218
+
+
+State 186
+
+   30 expression_semi: expression '.' OBJECTID . '(' expression_list ')' ';'
+   31                | expression '.' OBJECTID . '(' dummy_expression_list ')' ';'
+   60 expression: expression '.' OBJECTID . '(' expression_list ')'
+   61           | expression '.' OBJECTID . '(' dummy_expression_list ')'
+
+    '('  shift e prosecuzione allo stato 219
+
+
+State 187
+
+   58 expression: expression '@' TYPEID '.' . OBJECTID '(' expression_list ')'
+   59           | expression '@' TYPEID '.' . OBJECTID '(' dummy_expression_list ')'
+
+    OBJECTID  shift e prosecuzione allo stato 220
+
+
+State 188
+
+   60 expression: expression '.' OBJECTID '(' . expression_list ')'
+   61           | expression '.' OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 221
+    expression_list        prosecuzione allo stato 222
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 189
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' TYPEID '{' expression '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 223
+
+
+State 190
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID '{' expression '}' . ';'
+
+    ';'  shift e prosecuzione allo stato 224
+
+
+State 191
+
+   64 expression: IF expression THEN expression ELSE . expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 225
+    letexpr     prosecuzione allo stato 63
+
+
+State 192
+
+   95 letexpr_init: error . letexpr_init
+
+    error  shift e prosecuzione allo stato 192
+    IN     shift e prosecuzione allo stato 226
+    ','    shift e prosecuzione allo stato 195
+
+    letexpr_init  prosecuzione allo stato 227
+
+
+State 193
+
+   90 letexpr: LET OBJECTID ':' TYPEID IN . expression
+   94 letexpr_init: IN . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 228
+    letexpr     prosecuzione allo stato 63
+
+
+State 194
+
+   89 letexpr: LET OBJECTID ':' TYPEID ASSIGN . expression letexpr_init
+   91        | LET OBJECTID ':' TYPEID ASSIGN . expression IN expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 229
+    letexpr     prosecuzione allo stato 63
+
+
+State 195
+
+   92 letexpr_init: ',' . OBJECTID ':' TYPEID letexpr_init
+   93             | ',' . OBJECTID ':' TYPEID ASSIGN expression letexpr_init
+
+    OBJECTID  shift e prosecuzione allo stato 230
+
+
+State 196
+
+   88 letexpr: LET OBJECTID ':' TYPEID letexpr_init .
+
+    $default  riduzione con la regola 88 (letexpr)
+
+
+State 197
+
+   65 expression: WHILE expression LOOP expression POOL .
+
+    $default  riduzione con la regola 65 (expression)
+
+
+State 198
+
+   85 case: OBJECTID ':' . TYPEID DARROW expression ';'
+
+    TYPEID  shift e prosecuzione allo stato 231
+
+
+State 199
+
+   68 expression: CASE expression OF case_list ESAC .
+
+    $default  riduzione con la regola 68 (expression)
+
+
+State 200
+
+   87 case_list: case_list case .
+
+    $default  riduzione con la regola 87 (case_list)
+
+
+State 201
+
+   23 expression_list: expression_list ',' expression .
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    $default  riduzione con la regola 23 (expression_list)
+
+
+State 202
+
+   34 expression_semi: IF expression THEN expression . ELSE expression FI ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression THEN expression . ELSE expression FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    ELSE  shift e prosecuzione allo stato 232
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 203
+
+   35 expression_semi: WHILE expression LOOP expression . POOL ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   65           | WHILE expression LOOP expression . POOL
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    POOL  shift e prosecuzione allo stato 233
+    LE    shift e prosecuzione allo stato 95
+    '<'   shift e prosecuzione allo stato 96
+    '='   shift e prosecuzione allo stato 97
+    '+'   shift e prosecuzione allo stato 98
+    '-'   shift e prosecuzione allo stato 99
+    '*'   shift e prosecuzione allo stato 100
+    '/'   shift e prosecuzione allo stato 101
+    '@'   shift e prosecuzione allo stato 102
+    '.'   shift e prosecuzione allo stato 103
+
+
+State 204
+
+   38 expression_semi: CASE expression OF case_list . ESAC ';'
+   68 expression: CASE expression OF case_list . ESAC
+   87 case_list: case_list . case
+
+    ESAC      shift e prosecuzione allo stato 234
+    OBJECTID  shift e prosecuzione allo stato 159
+
+    case  prosecuzione allo stato 200
+
+
+State 205
+
+   27 expression_semi: OBJECTID ASSIGN error ';' .
+
+    $default  riduzione con la regola 27 (expression_semi)
+
+
+State 206
+
+   26 expression_semi: OBJECTID ASSIGN expression ';' .
+
+    $default  riduzione con la regola 26 (expression_semi)
+
+
+State 207
+
+   33 expression_semi: OBJECTID '(' dummy_expression_list ')' . ';'
+   63 expression: OBJECTID '(' dummy_expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 235
+
+    $default  riduzione con la regola 63 (expression)
+
+
+State 208
+
+   32 expression_semi: OBJECTID '(' expression_list ')' . ';'
+   62 expression: OBJECTID '(' expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 236
+
+    $default  riduzione con la regola 62 (expression)
+
+
+State 209
+
+   36 expression_semi: '{' block_expression_list '}' ';' .
+
+    $default  riduzione con la regola 36 (expression_semi)
+
+
+State 210
+
+   50 expression_semi: '(' expression ')' ';' .
+
+    $default  riduzione con la regola 50 (expression_semi)
+
+
+State 211
+
+   46 expression_semi: expression LE expression ';' .
+
+    $default  riduzione con la regola 46 (expression_semi)
+
+
+State 212
+
+   47 expression_semi: expression '<' expression ';' .
+
+    $default  riduzione con la regola 47 (expression_semi)
+
+
+State 213
+
+   48 expression_semi: expression '=' expression ';' .
+
+    $default  riduzione con la regola 48 (expression_semi)
+
+
+State 214
+
+   41 expression_semi: expression '+' expression ';' .
+
+    $default  riduzione con la regola 41 (expression_semi)
+
+
+State 215
+
+   42 expression_semi: expression '-' expression ';' .
+
+    $default  riduzione con la regola 42 (expression_semi)
+
+
+State 216
+
+   43 expression_semi: expression '*' expression ';' .
+
+    $default  riduzione con la regola 43 (expression_semi)
+
+
+State 217
+
+   44 expression_semi: expression '/' expression ';' .
+
+    $default  riduzione con la regola 44 (expression_semi)
+
+
+State 218
+
+   28 expression_semi: expression '@' TYPEID '.' . OBJECTID '(' expression_list ')' ';'
+   29                | expression '@' TYPEID '.' . OBJECTID '(' dummy_expression_list ')' ';'
+   58 expression: expression '@' TYPEID '.' . OBJECTID '(' expression_list ')'
+   59           | expression '@' TYPEID '.' . OBJECTID '(' dummy_expression_list ')'
+
+    OBJECTID  shift e prosecuzione allo stato 237
+
+
+State 219
+
+   30 expression_semi: expression '.' OBJECTID '(' . expression_list ')' ';'
+   31                | expression '.' OBJECTID '(' . dummy_expression_list ')' ';'
+   60 expression: expression '.' OBJECTID '(' . expression_list ')'
+   61           | expression '.' OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 238
+    expression_list        prosecuzione allo stato 239
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 220
+
+   58 expression: expression '@' TYPEID '.' OBJECTID . '(' expression_list ')'
+   59           | expression '@' TYPEID '.' OBJECTID . '(' dummy_expression_list ')'
+
+    '('  shift e prosecuzione allo stato 240
+
+
+State 221
+
+   61 expression: expression '.' OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 241
+
+
+State 222
+
+   23 expression_list: expression_list . ',' expression
+   60 expression: expression '.' OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 242
+    ','  shift e prosecuzione allo stato 164
+
+
+State 223
+
+   13 feature: OBJECTID '(' dummy_formal_list ')' ':' TYPEID '{' expression '}' ';' .
+
+    $default  riduzione con la regola 13 (feature)
+
+
+State 224
+
+   12 feature: OBJECTID '(' formal_list ')' ':' TYPEID '{' expression '}' ';' .
+
+    $default  riduzione con la regola 12 (feature)
+
+
+State 225
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression THEN expression ELSE expression . FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    FI   shift e prosecuzione allo stato 243
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+
+State 226
+
+   94 letexpr_init: IN . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 244
+    letexpr     prosecuzione allo stato 63
+
+
+State 227
+
+   95 letexpr_init: error letexpr_init .
+
+    $default  riduzione con la regola 95 (letexpr_init)
+
+
+State 228
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   90 letexpr: LET OBJECTID ':' TYPEID IN expression .
+   94 letexpr_init: IN expression .
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    error     riduzione con la regola 90 (letexpr)
+    error     [riduzione con la regola 94 (letexpr_init)]
+    ELSE      riduzione con la regola 90 (letexpr)
+    ELSE      [riduzione con la regola 94 (letexpr_init)]
+    FI        riduzione con la regola 90 (letexpr)
+    FI        [riduzione con la regola 94 (letexpr_init)]
+    IN        riduzione con la regola 90 (letexpr)
+    IN        [riduzione con la regola 94 (letexpr_init)]
+    LOOP      riduzione con la regola 90 (letexpr)
+    LOOP      [riduzione con la regola 94 (letexpr_init)]
+    POOL      riduzione con la regola 90 (letexpr)
+    POOL      [riduzione con la regola 94 (letexpr_init)]
+    THEN      riduzione con la regola 90 (letexpr)
+    THEN      [riduzione con la regola 94 (letexpr_init)]
+    OF        riduzione con la regola 90 (letexpr)
+    OF        [riduzione con la regola 94 (letexpr_init)]
+    LE        [riduzione con la regola 90 (letexpr)]
+    LE        [riduzione con la regola 94 (letexpr_init)]
+    '<'       [riduzione con la regola 90 (letexpr)]
+    '<'       [riduzione con la regola 94 (letexpr_init)]
+    '='       [riduzione con la regola 90 (letexpr)]
+    '='       [riduzione con la regola 94 (letexpr_init)]
+    '+'       [riduzione con la regola 90 (letexpr)]
+    '+'       [riduzione con la regola 94 (letexpr_init)]
+    '-'       [riduzione con la regola 90 (letexpr)]
+    '-'       [riduzione con la regola 94 (letexpr_init)]
+    '*'       [riduzione con la regola 90 (letexpr)]
+    '*'       [riduzione con la regola 94 (letexpr_init)]
+    '/'       [riduzione con la regola 90 (letexpr)]
+    '/'       [riduzione con la regola 94 (letexpr_init)]
+    '@'       [riduzione con la regola 90 (letexpr)]
+    '@'       [riduzione con la regola 94 (letexpr_init)]
+    '.'       [riduzione con la regola 90 (letexpr)]
+    '.'       [riduzione con la regola 94 (letexpr_init)]
+    '}'       riduzione con la regola 90 (letexpr)
+    '}'       [riduzione con la regola 94 (letexpr_init)]
+    ';'       riduzione con la regola 90 (letexpr)
+    ';'       [riduzione con la regola 94 (letexpr_init)]
+    ')'       riduzione con la regola 90 (letexpr)
+    ')'       [riduzione con la regola 94 (letexpr_init)]
+    ','       riduzione con la regola 90 (letexpr)
+    ','       [riduzione con la regola 94 (letexpr_init)]
+    $default  riduzione con la regola 90 (letexpr)
+
+
+State 229
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   89 letexpr: LET OBJECTID ':' TYPEID ASSIGN expression . letexpr_init
+   91        | LET OBJECTID ':' TYPEID ASSIGN expression . IN expression
+
+    error  shift e prosecuzione allo stato 192
+    IN     shift e prosecuzione allo stato 245
+    LE     shift e prosecuzione allo stato 95
+    '<'    shift e prosecuzione allo stato 96
+    '='    shift e prosecuzione allo stato 97
+    '+'    shift e prosecuzione allo stato 98
+    '-'    shift e prosecuzione allo stato 99
+    '*'    shift e prosecuzione allo stato 100
+    '/'    shift e prosecuzione allo stato 101
+    '@'    shift e prosecuzione allo stato 102
+    '.'    shift e prosecuzione allo stato 103
+    ','    shift e prosecuzione allo stato 195
+
+    letexpr_init  prosecuzione allo stato 246
+
+
+State 230
+
+   92 letexpr_init: ',' OBJECTID . ':' TYPEID letexpr_init
+   93             | ',' OBJECTID . ':' TYPEID ASSIGN expression letexpr_init
+
+    ':'  shift e prosecuzione allo stato 247
+
+
+State 231
+
+   85 case: OBJECTID ':' TYPEID . DARROW expression ';'
+
+    DARROW  shift e prosecuzione allo stato 248
+
+
+State 232
+
+   34 expression_semi: IF expression THEN expression ELSE . expression FI ';'
+   64 expression: IF expression THEN expression ELSE . expression FI
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 249
+    letexpr     prosecuzione allo stato 63
+
+
+State 233
+
+   35 expression_semi: WHILE expression LOOP expression POOL . ';'
+   65 expression: WHILE expression LOOP expression POOL .
+
+    ';'  shift e prosecuzione allo stato 250
+
+    $default  riduzione con la regola 65 (expression)
+
+
+State 234
+
+   38 expression_semi: CASE expression OF case_list ESAC . ';'
+   68 expression: CASE expression OF case_list ESAC .
+
+    ';'  shift e prosecuzione allo stato 251
+
+    $default  riduzione con la regola 68 (expression)
+
+
+State 235
+
+   33 expression_semi: OBJECTID '(' dummy_expression_list ')' ';' .
+
+    $default  riduzione con la regola 33 (expression_semi)
+
+
+State 236
+
+   32 expression_semi: OBJECTID '(' expression_list ')' ';' .
+
+    $default  riduzione con la regola 32 (expression_semi)
+
+
+State 237
+
+   28 expression_semi: expression '@' TYPEID '.' OBJECTID . '(' expression_list ')' ';'
+   29                | expression '@' TYPEID '.' OBJECTID . '(' dummy_expression_list ')' ';'
+   58 expression: expression '@' TYPEID '.' OBJECTID . '(' expression_list ')'
+   59           | expression '@' TYPEID '.' OBJECTID . '(' dummy_expression_list ')'
+
+    '('  shift e prosecuzione allo stato 252
+
+
+State 238
+
+   31 expression_semi: expression '.' OBJECTID '(' dummy_expression_list . ')' ';'
+   61 expression: expression '.' OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 253
+
+
+State 239
+
+   23 expression_list: expression_list . ',' expression
+   30 expression_semi: expression '.' OBJECTID '(' expression_list . ')' ';'
+   60 expression: expression '.' OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 254
+    ','  shift e prosecuzione allo stato 164
+
+
+State 240
+
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' . expression_list ')'
+   59           | expression '@' TYPEID '.' OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 255
+    expression_list        prosecuzione allo stato 256
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 241
+
+   61 expression: expression '.' OBJECTID '(' dummy_expression_list ')' .
+
+    $default  riduzione con la regola 61 (expression)
+
+
+State 242
+
+   60 expression: expression '.' OBJECTID '(' expression_list ')' .
+
+    $default  riduzione con la regola 60 (expression)
+
+
+State 243
+
+   64 expression: IF expression THEN expression ELSE expression FI .
+
+    $default  riduzione con la regola 64 (expression)
+
+
+State 244
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   94 letexpr_init: IN expression .
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    LE        [riduzione con la regola 94 (letexpr_init)]
+    '<'       [riduzione con la regola 94 (letexpr_init)]
+    '='       [riduzione con la regola 94 (letexpr_init)]
+    '+'       [riduzione con la regola 94 (letexpr_init)]
+    '-'       [riduzione con la regola 94 (letexpr_init)]
+    '*'       [riduzione con la regola 94 (letexpr_init)]
+    '/'       [riduzione con la regola 94 (letexpr_init)]
+    '@'       [riduzione con la regola 94 (letexpr_init)]
+    '.'       [riduzione con la regola 94 (letexpr_init)]
+    $default  riduzione con la regola 94 (letexpr_init)
+
+
+State 245
+
+   91 letexpr: LET OBJECTID ':' TYPEID ASSIGN expression IN . expression
+   94 letexpr_init: IN . expression
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 257
+    letexpr     prosecuzione allo stato 63
+
+
+State 246
+
+   89 letexpr: LET OBJECTID ':' TYPEID ASSIGN expression letexpr_init .
+
+    $default  riduzione con la regola 89 (letexpr)
+
+
+State 247
+
+   92 letexpr_init: ',' OBJECTID ':' . TYPEID letexpr_init
+   93             | ',' OBJECTID ':' . TYPEID ASSIGN expression letexpr_init
+
+    TYPEID  shift e prosecuzione allo stato 258
+
+
+State 248
+
+   85 case: OBJECTID ':' TYPEID DARROW . expression ';'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 259
+    letexpr     prosecuzione allo stato 63
+
+
+State 249
+
+   34 expression_semi: IF expression THEN expression ELSE expression . FI ';'
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   64           | IF expression THEN expression ELSE expression . FI
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+
+    FI   shift e prosecuzione allo stato 260
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+
+State 250
+
+   35 expression_semi: WHILE expression LOOP expression POOL ';' .
+
+    $default  riduzione con la regola 35 (expression_semi)
+
+
+State 251
+
+   38 expression_semi: CASE expression OF case_list ESAC ';' .
+
+    $default  riduzione con la regola 38 (expression_semi)
+
+
+State 252
+
+   28 expression_semi: expression '@' TYPEID '.' OBJECTID '(' . expression_list ')' ';'
+   29                | expression '@' TYPEID '.' OBJECTID '(' . dummy_expression_list ')' ';'
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' . expression_list ')'
+   59           | expression '@' TYPEID '.' OBJECTID '(' . dummy_expression_list ')'
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    $default  riduzione con la regola 21 (dummy_expression_list)
+
+    dummy_expression_list  prosecuzione allo stato 261
+    expression_list        prosecuzione allo stato 262
+    expression             prosecuzione allo stato 115
+    letexpr                prosecuzione allo stato 63
+
+
+State 253
+
+   31 expression_semi: expression '.' OBJECTID '(' dummy_expression_list ')' . ';'
+   61 expression: expression '.' OBJECTID '(' dummy_expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 263
+
+    $default  riduzione con la regola 61 (expression)
+
+
+State 254
+
+   30 expression_semi: expression '.' OBJECTID '(' expression_list ')' . ';'
+   60 expression: expression '.' OBJECTID '(' expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 264
+
+    $default  riduzione con la regola 60 (expression)
+
+
+State 255
+
+   59 expression: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 265
+
+
+State 256
+
+   23 expression_list: expression_list . ',' expression
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 266
+    ','  shift e prosecuzione allo stato 164
+
+
+State 257
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   91 letexpr: LET OBJECTID ':' TYPEID ASSIGN expression IN expression .
+   94 letexpr_init: IN expression .
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+
+    error     riduzione con la regola 91 (letexpr)
+    error     [riduzione con la regola 94 (letexpr_init)]
+    ELSE      riduzione con la regola 91 (letexpr)
+    ELSE      [riduzione con la regola 94 (letexpr_init)]
+    FI        riduzione con la regola 91 (letexpr)
+    FI        [riduzione con la regola 94 (letexpr_init)]
+    IN        riduzione con la regola 91 (letexpr)
+    IN        [riduzione con la regola 94 (letexpr_init)]
+    LOOP      riduzione con la regola 91 (letexpr)
+    LOOP      [riduzione con la regola 94 (letexpr_init)]
+    POOL      riduzione con la regola 91 (letexpr)
+    POOL      [riduzione con la regola 94 (letexpr_init)]
+    THEN      riduzione con la regola 91 (letexpr)
+    THEN      [riduzione con la regola 94 (letexpr_init)]
+    OF        riduzione con la regola 91 (letexpr)
+    OF        [riduzione con la regola 94 (letexpr_init)]
+    LE        [riduzione con la regola 91 (letexpr)]
+    LE        [riduzione con la regola 94 (letexpr_init)]
+    '<'       [riduzione con la regola 91 (letexpr)]
+    '<'       [riduzione con la regola 94 (letexpr_init)]
+    '='       [riduzione con la regola 91 (letexpr)]
+    '='       [riduzione con la regola 94 (letexpr_init)]
+    '+'       [riduzione con la regola 91 (letexpr)]
+    '+'       [riduzione con la regola 94 (letexpr_init)]
+    '-'       [riduzione con la regola 91 (letexpr)]
+    '-'       [riduzione con la regola 94 (letexpr_init)]
+    '*'       [riduzione con la regola 91 (letexpr)]
+    '*'       [riduzione con la regola 94 (letexpr_init)]
+    '/'       [riduzione con la regola 91 (letexpr)]
+    '/'       [riduzione con la regola 94 (letexpr_init)]
+    '@'       [riduzione con la regola 91 (letexpr)]
+    '@'       [riduzione con la regola 94 (letexpr_init)]
+    '.'       [riduzione con la regola 91 (letexpr)]
+    '.'       [riduzione con la regola 94 (letexpr_init)]
+    '}'       riduzione con la regola 91 (letexpr)
+    '}'       [riduzione con la regola 94 (letexpr_init)]
+    ';'       riduzione con la regola 91 (letexpr)
+    ';'       [riduzione con la regola 94 (letexpr_init)]
+    ')'       riduzione con la regola 91 (letexpr)
+    ')'       [riduzione con la regola 94 (letexpr_init)]
+    ','       riduzione con la regola 91 (letexpr)
+    ','       [riduzione con la regola 94 (letexpr_init)]
+    $default  riduzione con la regola 91 (letexpr)
+
+
+State 258
+
+   92 letexpr_init: ',' OBJECTID ':' TYPEID . letexpr_init
+   93             | ',' OBJECTID ':' TYPEID . ASSIGN expression letexpr_init
+
+    error   shift e prosecuzione allo stato 192
+    IN      shift e prosecuzione allo stato 226
+    ASSIGN  shift e prosecuzione allo stato 267
+    ','     shift e prosecuzione allo stato 195
+
+    letexpr_init  prosecuzione allo stato 268
+
+
+State 259
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   85 case: OBJECTID ':' TYPEID DARROW expression . ';'
+
+    LE   shift e prosecuzione allo stato 95
+    '<'  shift e prosecuzione allo stato 96
+    '='  shift e prosecuzione allo stato 97
+    '+'  shift e prosecuzione allo stato 98
+    '-'  shift e prosecuzione allo stato 99
+    '*'  shift e prosecuzione allo stato 100
+    '/'  shift e prosecuzione allo stato 101
+    '@'  shift e prosecuzione allo stato 102
+    '.'  shift e prosecuzione allo stato 103
+    ';'  shift e prosecuzione allo stato 269
+
+
+State 260
+
+   34 expression_semi: IF expression THEN expression ELSE expression FI . ';'
+   64 expression: IF expression THEN expression ELSE expression FI .
+
+    ';'  shift e prosecuzione allo stato 270
+
+    $default  riduzione con la regola 64 (expression)
+
+
+State 261
+
+   29 expression_semi: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list . ')' ';'
+   59 expression: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 271
+
+
+State 262
+
+   23 expression_list: expression_list . ',' expression
+   28 expression_semi: expression '@' TYPEID '.' OBJECTID '(' expression_list . ')' ';'
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' expression_list . ')'
+
+    ')'  shift e prosecuzione allo stato 272
+    ','  shift e prosecuzione allo stato 164
+
+
+State 263
+
+   31 expression_semi: expression '.' OBJECTID '(' dummy_expression_list ')' ';' .
+
+    $default  riduzione con la regola 31 (expression_semi)
+
+
+State 264
+
+   30 expression_semi: expression '.' OBJECTID '(' expression_list ')' ';' .
+
+    $default  riduzione con la regola 30 (expression_semi)
+
+
+State 265
+
+   59 expression: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' .
+
+    $default  riduzione con la regola 59 (expression)
+
+
+State 266
+
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' expression_list ')' .
+
+    $default  riduzione con la regola 58 (expression)
+
+
+State 267
+
+   93 letexpr_init: ',' OBJECTID ':' TYPEID ASSIGN . expression letexpr_init
+
+    IF          shift e prosecuzione allo stato 48
+    LET         shift e prosecuzione allo stato 49
+    WHILE       shift e prosecuzione allo stato 50
+    CASE        shift e prosecuzione allo stato 51
+    NEW         shift e prosecuzione allo stato 52
+    ISVOID      shift e prosecuzione allo stato 53
+    STR_CONST   shift e prosecuzione allo stato 54
+    INT_CONST   shift e prosecuzione allo stato 55
+    BOOL_CONST  shift e prosecuzione allo stato 56
+    OBJECTID    shift e prosecuzione allo stato 57
+    NOT         shift e prosecuzione allo stato 58
+    '~'         shift e prosecuzione allo stato 59
+    '{'         shift e prosecuzione allo stato 60
+    '('         shift e prosecuzione allo stato 61
+
+    expression  prosecuzione allo stato 273
+    letexpr     prosecuzione allo stato 63
+
+
+State 268
+
+   92 letexpr_init: ',' OBJECTID ':' TYPEID letexpr_init .
+
+    $default  riduzione con la regola 92 (letexpr_init)
+
+
+State 269
+
+   85 case: OBJECTID ':' TYPEID DARROW expression ';' .
+
+    $default  riduzione con la regola 85 (case)
+
+
+State 270
+
+   34 expression_semi: IF expression THEN expression ELSE expression FI ';' .
+
+    $default  riduzione con la regola 34 (expression_semi)
+
+
+State 271
+
+   29 expression_semi: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' . ';'
+   59 expression: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 274
+
+    $default  riduzione con la regola 59 (expression)
+
+
+State 272
+
+   28 expression_semi: expression '@' TYPEID '.' OBJECTID '(' expression_list ')' . ';'
+   58 expression: expression '@' TYPEID '.' OBJECTID '(' expression_list ')' .
+
+    ';'  shift e prosecuzione allo stato 275
+
+    $default  riduzione con la regola 58 (expression)
+
+
+State 273
+
+   58 expression: expression . '@' TYPEID '.' OBJECTID '(' expression_list ')'
+   59           | expression . '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')'
+   60           | expression . '.' OBJECTID '(' expression_list ')'
+   61           | expression . '.' OBJECTID '(' dummy_expression_list ')'
+   71           | expression . '+' expression
+   72           | expression . '-' expression
+   73           | expression . '*' expression
+   74           | expression . '/' expression
+   76           | expression . LE expression
+   77           | expression . '<' expression
+   78           | expression . '=' expression
+   93 letexpr_init: ',' OBJECTID ':' TYPEID ASSIGN expression . letexpr_init
+
+    error  shift e prosecuzione allo stato 192
+    IN     shift e prosecuzione allo stato 226
+    LE     shift e prosecuzione allo stato 95
+    '<'    shift e prosecuzione allo stato 96
+    '='    shift e prosecuzione allo stato 97
+    '+'    shift e prosecuzione allo stato 98
+    '-'    shift e prosecuzione allo stato 99
+    '*'    shift e prosecuzione allo stato 100
+    '/'    shift e prosecuzione allo stato 101
+    '@'    shift e prosecuzione allo stato 102
+    '.'    shift e prosecuzione allo stato 103
+    ','    shift e prosecuzione allo stato 195
+
+    letexpr_init  prosecuzione allo stato 276
+
+
+State 274
+
+   29 expression_semi: expression '@' TYPEID '.' OBJECTID '(' dummy_expression_list ')' ';' .
+
+    $default  riduzione con la regola 29 (expression_semi)
+
+
+State 275
+
+   28 expression_semi: expression '@' TYPEID '.' OBJECTID '(' expression_list ')' ';' .
+
+    $default  riduzione con la regola 28 (expression_semi)
+
+
+State 276
+
+   93 letexpr_init: ',' OBJECTID ':' TYPEID ASSIGN expression letexpr_init .
+
+    $default  riduzione con la regola 93 (letexpr_init)

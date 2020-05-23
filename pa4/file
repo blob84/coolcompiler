@@ -1,0 +1,2 @@
+javac -g -nowarn -classpath /usr/class/cs143/cool/lib:.:/usr/java/lib/rt.jar ASTConstants.java ASTLexer.java ASTParser.java AbstractSymbol.java AbstractTable.java Flags.java IdSymbol.java IdTable.java IntTable.java ListNode.java Cgen.java StringTable.java SymbolTable.java SymtabExample.java TokenConstants.java TreeNode.java ClassTable.java Utilities.java  CgenClassTable.java CgenNode.java CgenSupport.java TreeConstants.java cool-tree.java IntSymbol.java StringSymbol.java BoolConst.java
+Makefile:66: set di istruzioni per l'obiettivo "CgenClassTable.class" non riuscito

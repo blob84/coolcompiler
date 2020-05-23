@@ -1,0 +1,12 @@
+public class Symbol {
+	public int sym;
+	public Object value;
+
+    public Symbol(int symnum) {
+        this.sym = symnum;
+    }
+
+    public String toString() {
+		return "#"+sym;
+    }
+}    

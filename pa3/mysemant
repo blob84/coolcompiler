@@ -1,0 +1,2 @@
+#!/bin/csh -f
+../pa1/lexer $* | ../pa2/parser $* | ./semant $* 

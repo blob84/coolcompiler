@@ -1,0 +1,14 @@
+antonio@debian:/usr/class/cs143/cool/mypa1$ ./pa1-grading.pl
+Grading .....
+make: ingresso nella directory "/usr/class/cs143/cool/mypa1"
+make: "lexer" è aggiornato.
+make: uscita dalla directory "/usr/class/cs143/cool/mypa1"
+=====================================================================
+submission: ..
+
+=====================================================================
+You got a score of 63 out of 63.
+
+Submit code: 
+63:03afdbd66e7929b125f8597834fa83a4
+

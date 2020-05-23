@@ -1,0 +1,22 @@
+Grading .....
+make: ingresso nella directory "/usr/class/cs143/cool/pa3"
+make: Nessuna operazione da eseguire per "source".
+make: uscita dalla directory "/usr/class/cs143/cool/pa3"
+make: ingresso nella directory "/usr/class/cs143/cool/pa3"
+javac -g -nowarn -classpath /usr/class/cs143/cool/lib:.:/usr/java/lib/rt.jar ASTConstants.java ASTLexer.java ASTParser.java AbstractSymbol.java AbstractTable.java BoolConst.java Flags.java IdSymbol.java IdTable.java IntSymbol.java IntTable.java ListNode.java Semant.java StringSymbol.java StringTable.java CgenSupport.java SymbolTable.java SymtabExample.java TokenConstants.java TreeNode.java Utilities.java  ClassTable.java TreeConstants.java cool-tree.java 
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+touch cool-tree.class
+echo '#!/bin/sh' >> semant
+echo 'java -classpath /usr/class/cs143/cool/lib:.:/usr/java/lib/rt.jar Semant $*' >> semant
+chmod 755 semant
+make: uscita dalla directory "/usr/class/cs143/cool/pa3"
+=====================================================================
+submission: ..
+
+=====================================================================
+You got a score of 74 out of 74.
+
+Submit code: 
+PA3-74:a88e7b09ee0cf795e75880f1c74677af
+

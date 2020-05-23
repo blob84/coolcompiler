@@ -1,0 +1,17 @@
+=====================================================================
+submission: ..
+
+	-1 (badmethodcallsitself)	 Method called with itself as parameter (wrong type)
+	-1 (cells)	 Complex program
+	-1 (classes)	 Various classes with inheritance and overriding (legal)
+	-1 (hairyscary)	 Messy legal Cool program
+	-1 (inheritsselftype)	 Class inherits SELF_TYPE (illegal)
+	-1 (lubtest)	 LUB test using if statements
+	-1 (methodnameclash)	 Two children define a function differently (allowed)
+	-1 (nomain)	 Missing Main class
+	-1 (overridingmethod3)	 Method override example with SELF_TYPE
+	-1 (self-assignment)	 Assignment to self (illegal)
+=====================================================================
+You got a score of 64 out of 74.
+
+

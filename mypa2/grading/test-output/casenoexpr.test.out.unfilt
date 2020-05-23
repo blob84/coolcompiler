@@ -1,0 +1,4 @@
+"./casenoexpr.test", line 7: parse error at or near OF
+"./casenoexpr.test", line 9: parse error at or near DARROW
+"./casenoexpr.test", line 9: parse error at or near ';'
+Compilation halted due to lex and parse errors

@@ -1,0 +1,16 @@
+antonio@debian:/usr/class/cs143/cool/mypa2$ ./pa2-grading.pl
+Grading .....
+make: ingresso nella directory "/usr/class/cs143/cool/mypa2"
+make: "parser" è aggiornato.
+make: uscita dalla directory "/usr/class/cs143/cool/mypa2"
+=====================================================================
+submission: ..
+
+	-1 (badexprlist)	 bad expr lists 
+	-1 (casenoexpr)	 case with no expr
+=====================================================================
+You got a score of 68 out of 70.
+
+Submit code: 
+68:a3f390d88e4c41f2747bfa2f1b5f87db
+

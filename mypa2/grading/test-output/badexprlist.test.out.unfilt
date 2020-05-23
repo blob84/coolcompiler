@@ -1,0 +1,4 @@
+"./badexprlist.test", line 2: parse error at or near '}'
+"./badexprlist.test", line 3: parse error at or near ':'
+"./badexprlist.test", line 3: parse error at or near ';'
+Compilation halted due to lex and parse errors
